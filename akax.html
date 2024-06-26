@@ -1,0 +1,149 @@
+<html>
+<head>
+  <title>Registration Form</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      font-size: 130%;
+    }
+
+   .form-container {
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+   .error {
+      color: red;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+   .success {
+      color: green;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <form>
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email">
+    <span class="error" id="email-error"></span>
+
+    <label for="phone">Phone-Number:</label>
+    <input type="text" id="phone" name="phone">
+    <span class="error" id="phone-error"></span>
+
+    <label for="password">password:</label>
+    <input type="password" id="password" name="password">
+    <span class="error" id="password-error"></span>
+
+    <label for="confirm-password">Confirm-password:</label>
+    <input type="password" id="confirm-password" name="confirm-password">
+    <span class="error" id="confirm-password-error"></span>
+
+    <button type="submit">Submit</button>
+    <span class="success" id="success-message"></span>
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('form').submit(function(event) {
+      event.preventDefault();
+
+      var email = $('#email').val();
+      var phone = $('#phone').val();
+      var password = $('#password').val();
+      var confirmPassword = $('#confirm-password').val();
+
+      // Validate email
+      if (!validateEmail(email)) {
+        $('#email-error').text('Invalid email address');
+        return false;
+      } else {
+        $('#email-error').text('');
+      }
+
+      // Validate phone number
+      if (!validatePhoneNumber(phone)) {
+        $('#phone-error').text('Invalid phone number');
+        return false;
+      } else {
+        $('#phone-error').text('');
+      }
+
+      // Validate password
+      if (!validatePassword(password)) {
+        $('#password-error').text('Password must be at least 8 characters long');
+        return false;
+      } else {
+        $('#password-error').text('');
+      }
+
+      // Validate confirm password
+      if (password!== confirmPassword) {
+        $('#confirm-password-error').text('Passwords do not match');
+        return false;
+      } else {
+        $('#confirm-password-error').text('');
+      }
+
+      // If all validation passes, display success message
+      $('#success-message').text('You are registered successfully!');
+      $('#success-message').fadeIn();
+
+      // You can also submit the form to the server here
+      // $(this).submit();
+    });
+
+    function validateEmail(email) {
+      var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(email);
+    }
+
+    function validatePhoneNumber(phone) {
+      var phoneRegex = /^\d{10}$/;
+      return phoneRegex.test(phone);
+    }
+
+    function validatePassword(password) {
+      return password.length >= 8;
+    }
+  });
+</script>
+
+</body>
+</html>
